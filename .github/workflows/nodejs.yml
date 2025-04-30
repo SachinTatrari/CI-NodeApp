@@ -30,6 +30,9 @@ jobs:
 
         - name: Run Linter
           run: npx eslint .
-        
+         
+        - name: Fix Jest permissions
+          run: chmod +x node_modules/.bin/jest
+
         - name: Run Test
           run: npm test
