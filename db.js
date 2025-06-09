@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 
 const connectDB = async ()=> {
-    if(process.ENV.NODE_ENV==='test'){
+    if(process.env.NODE_ENV==='test'){
         console.log('skipping the db connection in test environment');
         return;
     }
