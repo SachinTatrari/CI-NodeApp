@@ -1,7 +1,20 @@
-// console.log("Hello from Node.js");
 const express = require('express');
-const app = express();
+const connectDB = require('./db');
+const notesRoutes = require('./routes/notes');
 
-app.get('/', (req,res) => res.send("Hello CI!"));
-console.log('Started');
+const app = express();
+const PORT = 3000;
+
+connectDB();
+
+app.use(express.json()); // for parsing application/json
+app.use('/notes', notesRoutes); // Mount notes API
+
+app.get('/', (req, res) => {
+  res.send('Welcome to Notes API');
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});
 module.exports = app;
