@@ -5,7 +5,7 @@ describe('GET /', () =>{
     it('responds with Hello CI!', async()=>{
         const res = await request(app).get('/');
         expect(res.statusCode).toBe(200);
-        expect(res.text).toBe('Hello CI!');
+        expect(res.text).toBe('Welcome to Notes API');
     }
     )
 })

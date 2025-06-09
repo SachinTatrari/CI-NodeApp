@@ -125,7 +125,7 @@ Connect to MongoDB via localhost and everything would still work.
 
 But Docker brings a lot of important benefits in real-world scenarios — especially in DevOps, cloud, and production environments.
 
-🚀 Why Docker Is Significant Here
+ Why Docker Is Significant Here
 1. Environment Consistency
 “It works on my machine!” — not a valid excuse anymore.
 
@@ -166,3 +166,9 @@ Without Docker: You hand someone a loose pile of software, hoping they install i
 With Docker: You hand them a sealed, self-contained unit that works the same on every ship, truck, or platform.
 
 
+----------------------------------------------------
+Was facing the build failure with github action when I committed the file after creating setup for docker compose
+1st fail was eslint, since the argument in catch block for err was not used in the routes file.
+Fix: Just added a console.log so that err gets called.
+2nd fail is interesting, it is failing in the Test, since in my app.test.js, req.send('Hello from CI') but in my index.js it is 'Welcome to notesAPI', so changed that
+Along with it, mongoDB server connection was not happening, so added an if condition in db.js to skip connecting to db when in test mode using, process.ENV.NODE_ENV==='test'. Added the same var in package.json also.
