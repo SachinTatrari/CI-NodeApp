@@ -8,4 +8,11 @@ export default defineConfig([
   { files: ["**/*.js"], languageOptions: { sourceType: "commonjs" } },
   {files: ["test/**/*.js"], languageOptions: { globals: {...globals.jest} } },
   { files: ["**/*.{js,mjs,cjs}"], languageOptions: { globals: globals.browser } },
+  { files: ['**/*.js'],languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      globals: {
+        process: 'readonly', //  this line allows `process` to be used
+      },
+    }}
 ]);
