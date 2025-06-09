@@ -3,7 +3,6 @@ const connectDB = require('./db');
 const notesRoutes = require('./routes/notes');
 
 const app = express();
-const PORT = 3000;
 
 connectDB();
 
