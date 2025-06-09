@@ -172,3 +172,29 @@ Was facing the build failure with github action when I committed the file after 
 Fix: Just added a console.log so that err gets called.
 2nd fail is interesting, it is failing in the Test, since in my app.test.js, req.send('Hello from CI') but in my index.js it is 'Welcome to notesAPI', so changed that
 Along with it, mongoDB server connection was not happening, so added an if condition in db.js to skip connecting to db when in test mode using, process.ENV.NODE_ENV==='test'. Added the same var in package.json also.
+
+
+----------------------------------------------------
+ Best Practice (for real-world CI/CD):
+Export just the app from your index.js or app.js
+
+Skip app.listen() entirely during tests — using:
+
+
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(3000, () => { ... });
+}
+In tests, just:
+
+
+const request = require('supertest');
+const app = require('../index');
+This:
+
+Prevents Jest from hanging
+
+Avoids port conflicts
+
+Keeps tests fast and isolated
+
+Works cleanly in CI/CD pipelines (like GitHub Actions)

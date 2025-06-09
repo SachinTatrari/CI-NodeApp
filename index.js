@@ -14,7 +14,8 @@ app.get('/', (req, res) => {
   res.send('Welcome to Notes API');
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-});
+if(process.env.NODE_ENV !== 'test'){
+app.listen(3000, () => {
+  console.log("Server running at 3000");
+})};
 module.exports = app;
