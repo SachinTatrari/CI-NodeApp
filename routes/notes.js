@@ -11,6 +11,7 @@ router.post('/', async (req, res) => {
     await note.save();
     res.status(201).json(note);
   } catch (err) {
+    console.log(err);
     res.status(500).json({ error: 'Failed to create note' });
   }
 });
@@ -21,6 +22,7 @@ router.get('/', async (req, res) => {
     const notes = await Note.find();
     res.json(notes);
   } catch (err) {
+    console.log(err);
     res.status(500).json({ error: 'Failed to fetch notes' });
   }
 });
