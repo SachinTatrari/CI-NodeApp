@@ -198,3 +198,80 @@ Avoids port conflicts
 Keeps tests fast and isolated
 
 Works cleanly in CI/CD pipelines (like GitHub Actions)
+
+
+-------------------------------------------------------------------------------------------------------
+BIG UPDATE:
+
+Now as the time went by, I will update here what we have done:
+1. Created another jenkins container, that has docker running inside it.
+2. Created a Jenkinsfile in this repo, which will be used by the jenkins pipeline of the above jenkins container.
+3. This Jenkinsfile is used to build, test and deploy app. So basically all CI/CD.
+This is the Jenkinsfile:
+pipeline {
+  agent any
+
+  environment {
+    DOCKER_IMAGE = "my-node-app"
+    COMPOSE_FILE = "docker-compose.yml"
+    NODE_ENV = "test"
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        git url: 'https://github.com/SachinTatrari/CI-NodeApp.git'
+      }
+    }
+
+    stage('Start Services (Mongo + App)') {
+      steps {
+        sh 'docker-compose -f $COMPOSE_FILE up -d'
+      }
+    }
+
+    stage('Install Dependencies') {
+      steps {
+        sh 'docker-compose exec -T app npm install'
+      }
+    }
+
+    stage('Lint Code') {
+      steps {
+        sh 'docker-compose exec -T app npm run lint'
+      }
+    }
+
+    stage('Run Tests') {
+      steps {
+        sh 'docker-compose exec -T app npm test'
+      }
+    }
+
+    stage('Stop Test Containers') {
+      steps {
+        sh 'docker-compose -f $COMPOSE_FILE down'
+      }
+    }
+
+    stage('Build Production Docker Image') {
+      steps {
+        sh 'docker build -t $DOCKER_IMAGE .'
+      }
+    }
+
+    stage('Deploy Container') {
+      steps {
+        sh 'docker run -d -p 3000:3000 --name my-node-mongo-container $DOCKER_IMAGE'
+      }
+    }
+  }
+
+  post {
+    always {
+      echo 'Cleaning up unused containers/images/volumes...'
+      sh 'docker system prune -f || true'
+    }
+  }
+}
+
