@@ -3,8 +3,7 @@ FROM node:18-slim
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install
-RUN chmod +x ./node_modules/.bin/eslint
+RUN npm install && chmod +x ./node_modules/.bin/*
 
 
 
