@@ -8,12 +8,7 @@ pipeline {
   }
 
   stages {
-    stage('Checkout') {
-      steps {
-        git url: 'https://github.com/SachinTatrari/CI-NodeApp.git'
-      }
-    }
-
+    
     stage('Start Services (Mongo + App)') {
       steps {
         sh 'docker-compose -f $COMPOSE_FILE up -d'
