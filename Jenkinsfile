@@ -8,7 +8,7 @@ pipeline {
   }
 
   stages {
-    
+
     stage('Start Services (Mongo + App)') {
       steps {
         sh 'docker-compose -f $COMPOSE_FILE up -d'
@@ -23,7 +23,8 @@ pipeline {
 
     stage('Lint Code') {
       steps {
-        sh 'docker-compose exec -T app npm run lint'
+        sh 'docker-compose exec -T app npx --no-install eslint .'
+
       }
     }
 
